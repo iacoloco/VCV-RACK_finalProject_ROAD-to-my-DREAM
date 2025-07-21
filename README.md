@@ -1,104 +1,65 @@
-# 🎓 Final Project – VCV Rack Module Development  
-## Phase 1: C++ Architecture Simulation
+# VCV Rack Practice Plugin (C++ Simulation)
 
-This is the first phase of my final project: building and understanding the C++ architecture behind VCV Rack plugins by simulating how modules are registered using classes, pointers, and dynamic memory.
+This project is my **C++ practice environment** for learning how VCV Rack plugins work.  
+It simulates the **Plugin / Model system** that VCV Rack uses under the hood.
 
 ---
 
 ## 🧱 What This Project Does
-
-- Defines a `Model` class for module names like "Oscillator" or "VCA"
-- Defines a `Plugin` class that holds a list of `Model` pointers
-- Uses a global pointer `pluginInstance` to simulate how VCV Rack loads a plugin
-- Registers multiple modules using `init(Plugin* p)`
-- Prints the list of registered modules to the console
-
----
-
-## 🧠 What I Learned in This Phase
-
-- ✅ C++ classes, constructors, and methods
-- ✅ How to use pointers (`*`, `->`)
-- ✅ The difference between dot `.` and arrow `->`
-- ✅ How `new` creates objects on the heap
-- ✅ How to build vectors of pointers (`vector<Model*>`)
-- ✅ Function design, passing pointers, and memory management
-- ✅ Git + GitHub for version control and project tracking
+- Defines a `Model` class for representing modules (e.g., `"Oscillator"`, `"VCA"`).
+- Defines a `Plugin` class that:
+  - Stores a list of models using `vector<Model*>`.
+  - Can **add, list, rename, and remove models** dynamically.
+- Uses a global `pluginInstance` pointer to simulate how VCV Rack loads plugins.
+- Implements `init(Plugin* p)` to set up the plugin with modules.
 
 ---
 
-## 🔧 How It Works (Flow of the Code)
-
-1. **Create a `Plugin` object** in `main()`  
-   This represents your plugin toolbox — where all your modules (models) will go.
-
-   ```cpp
-   Plugin myPlugin;
-   ```
-
-2. **Call the `init()` function**, passing the address of your plugin  
-   This simulates how VCV Rack gives your plugin a "box" to fill.
-
-   ```cpp
-   init(&myPlugin);
-   ```
-
-3. **Inside `init()`**, store the plugin address in a global pointer `pluginInstance`  
-   This lets your code access the plugin from anywhere.
-
-   ```cpp
-   pluginInstance = p;
-   ```
-
-4. **Create new modules** dynamically using `new` and the `Model` class constructor  
-   This simulates defining modules like "Oscillator", "VCA", etc.
-
-   ```cpp
-   Model* osc = new Model("Oscillator");
-   Model* vca = new Model("VCA");
-   ```
-
-5. **Register those modules** by passing them to `addModel()` on the plugin pointer  
-   These go into a `vector<Model*>` inside the `Plugin` class.
-
-   ```cpp
-   p->addModel(osc);
-   p->addModel(vca);
-   ```
-
-6. **Back in `main()`**, call `pluginInstance->showModels()`  
-   This loops through all stored module pointers and prints their names.
-
-   ```cpp
-   pluginInstance->showModels();
-   ```
+## 🧠 What I Learned
+- How to use **C++ classes, constructors, and methods**.
+- How pointers (`*`, `->`) work and why they’re used for efficiency.
+- Difference between dot `.` and arrow `->` when accessing class members.
+- How to dynamically allocate objects with `new`.
+- Using `vector` to manage dynamic lists of pointers.
+- Writing and calling custom functions for **adding, counting, renaming, and removing items**.
+- Git + GitHub for **version control and portfolio building**.
 
 ---
 
-## ✅ Current Code Flow
+## 🔧 Features (Functions I Built)
+1. **`addModel(Model* model)`**  
+   - Adds a module (model) to the plugin.  
+   - Prints confirmation:
+     ```cpp
+     Model* osc = new Model("Oscillator");
+     plugin.addModel(osc); // "Model added: Oscillator"
+     ```
+
+2. **`showModels()`**  
+   - Prints a list of all registered models.
+
+3. **`countModels()`**  
+   - Displays the total number of models currently in the plugin.
+
+4. **`removeModel(string name)`**  
+   - Removes a model by name (if found).
+   - If not found, prints an error.
+
+5. **`renameModel(string oldName, string newName)`**  
+   - Finds a model by name and changes its name.
+   - Prints confirmation or an error if not found.
+
+---
+
+## ▶️ Example Flow
 
 ```cpp
-int main() {
-    Plugin myPlugin;
-    init(&myPlugin);
-    pluginInstance->showModels();
-}
-```
+Plugin myPlugin;
+init(&myPlugin);
 
----
-
-## 🚀 Next Phase (VCV Rack SDK + Real Module)
-
-In the next stage of this project, I will:
-
----UNKNOW
----
-
-## 💼 Final Project Goal
-
-To create a fully working, open-source VCV Rack plugin  
-→ **designed, coded, tested, and version-controlled from scratch**
-
-This current simulation lays the foundation in modern C++ and plugin architecture before working with the real SDK.
-
-
+pluginInstance->showModels();         // Shows all models
+pluginInstance->countModels();        // Counts models
+pluginInstance->removeModel("VCA");   // Deletes VCA
+pluginInstance->renameModel("Oscillator", "SuperOscillator");
+pluginInstance->showModels();         // Shows updated models
+pluginInstance->countModels();        // Shows updated count
