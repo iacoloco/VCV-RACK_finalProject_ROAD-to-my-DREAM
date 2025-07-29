@@ -1,6 +1,6 @@
 # VCV Rack Practice Plugin (C++ Simulation)
 
-This project is my **C++ practice environment** for learning how VCV Rack plugins work.  
+This project is my **C++ OOP practice environment** for learning how VCV Rack plugins work.  
 It simulates the **Plugin / Model system** that VCV Rack uses under the hood.
 
 ---
